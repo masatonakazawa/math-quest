@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <title>Grid Practice</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="zone green problem">Test</div>
+      <!-- <div class="zone red">24</div> -->
+      <input
+        type="number"
+        autofocus
+        class="zone red your-answer"
+        placeholder="Your answer"
+      />
+
+      <div class="zone blue">
+        <div class="img-container">
+          <img
+            src="./img/bw_girl_v3.gif"
+            alt="Player"
+            class="player"
+            height="50px"
+          />
+          <img
+            src="./img/Sprite-0001b.gif"
+            alt="Monster"
+            class="monster"
+            height="50px"
+          />
+        </div>
+      </div>
+      <div class="zone yellow life"></div>
+      <div class="zone brown score"></div>
+      <div class="zone brown">Time: 29</div>
+      <div class="zone brown operation">
+          <button onclick="myFunction()" class="dropbtn">Operation</button>
+          <div id="myDropdown" class="dropdown-content">
+            <p>+</p>
+            <p>-</p>
+            <p>×</p>
+            <p>÷</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="zone purple high-score">High Score: 24</div>
+      <div class="zone brown">9</div>
+      <div class="zone yellow">10</div>
+      <div class="zone yellow">11</div>
+      <div class="zone brown">12</div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
