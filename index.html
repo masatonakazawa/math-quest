@@ -2,57 +2,76 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <title>Grid Practice</title>
+    <title>Math Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="zone green problem">Test</div>
-      <!-- <div class="zone red">24</div> -->
-      <input
-        type="number"
-        autofocus
-        class="zone red your-answer"
-        placeholder="Your answer"
-      />
-
-      <div class="zone blue">
-        <div class="img-container">
-          <img
-            src="./img/bw_girl_v3.gif"
-            alt="Player"
-            class="player"
-            height="50px"
-          />
-          <img
-            src="./img/Sprite-0001b.gif"
-            alt="Monster"
-            class="monster"
-            height="50px"
-          />
+    <main class="game">
+      <!-- Title screen -->
+      <section id="title-screen" class="screen title">
+        <p class="title__tag">A Number Adventure</p>
+        <h1 class="title__name">Math<br />Quest</h1>
+        <div class="title__sprites">
+          <img src="./img/bw_girl_v3.gif" alt="Hero" class="sprite sprite--hero" />
+          <span class="title__vs">VS</span>
+          <img src="./img/Sprite-0001b.gif" alt="Monster" class="sprite sprite--foe" />
         </div>
-      </div>
-      <div class="zone yellow life"></div>
-      <div class="zone brown score"></div>
-      <div class="zone brown">Time: 29</div>
-      <div class="zone brown operation">
-          <button class="dropbtn">Operation</button>
-          <div id="myDropdown" class="dropdown-content">
-            <p>+</p>
-            <p>-</p>
-            <p>×</p>
-            <p>÷</p>
+        <button id="start-btn" class="btn btn--big" type="button">Start Quest</button>
+        <p class="hint">or press <kbd>Enter</kbd></p>
+      </section>
+
+      <!-- Game screen -->
+      <section id="game-screen" class="screen play" hidden>
+        <header class="hud">
+          <div class="hud__item life"></div>
+          <div class="hud__item level"></div>
+          <div class="hud__item score"></div>
+          <div class="hud__item high-score"></div>
+        </header>
+
+        <div class="arena">
+          <img src="./img/bw_girl_v3.gif" alt="Player" class="sprite player" />
+          <img src="./img/Sprite-0001b.gif" alt="Monster" class="sprite monster" />
+        </div>
+
+        <div class="panel">
+          <p class="problem"></p>
+          <div class="answer-row">
+            <input
+              type="number"
+              class="your-answer"
+              placeholder="Your answer"
+              autocomplete="off"
+            />
+            <button id="attack-btn" class="btn" type="button">Attack!</button>
+          </div>
+          <div class="ops" role="group" aria-label="Operation">
+            <button type="button" class="op" data-op="+">+</button>
+            <button type="button" class="op" data-op="-">&minus;</button>
+            <button type="button" class="op" data-op="×">&times;</button>
+            <button type="button" class="op" data-op="÷">&divide;</button>
           </div>
         </div>
+      </section>
 
-      <div class="zone purple high-score">High Score: 24</div>
-      <div class="zone brown">9</div>
-      <div class="zone yellow">10</div>
-      <div class="zone yellow">11</div>
-      <div class="zone brown">12</div>
-    </div>
+      <!-- Game over overlay -->
+      <div id="gameover" class="overlay" hidden>
+        <div class="overlay__card">
+          <h2>Game Over</h2>
+          <p class="overlay__score"></p>
+          <p class="overlay__best"></p>
+          <button id="retry-btn" class="btn btn--big" type="button">Play Again</button>
+          <p class="hint">or press <kbd>Enter</kbd></p>
+        </div>
+      </div>
+    </main>
 
     <script type="module" src="js/main.js"></script>
   </body>

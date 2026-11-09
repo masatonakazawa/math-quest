@@ -16,6 +16,7 @@ function nextProblem() {
 
 function levelUp() {
   state.level++;
+  ui.renderLevel(state.level);
   ui.setMonsterSize(state.level);
   playSound("levelUp");
 }
@@ -37,17 +38,19 @@ function handleIncorrect() {
 
 function endGame() {
   state.gameOver = true;
-  if (state.score > state.highScore) {
+  const isNewBest = state.score > state.highScore;
+  if (isNewBest) {
     state.highScore = state.score;
     ui.renderHighScore(state.highScore);
   }
   ui.setAnswerEnabled(false);
-  ui.renderProblem(`Game Over! Score: ${state.score} — press Enter to play again`);
+  ui.showGameOver(state.score, state.highScore, isNewBest);
 }
 
 function renderAll() {
   ui.renderScore(state.score);
   ui.renderLife(state.life);
+  ui.renderLevel(state.level);
   ui.renderHighScore(state.highScore);
   ui.renderOperation(state.operation);
   ui.setMonsterSize(state.level);
@@ -89,6 +92,7 @@ export function setOperation(op) {
 
 export function startGame() {
   resetRun();
+  ui.showGame();
   ui.setAnswerEnabled(true);
   renderAll();
   nextProblem();

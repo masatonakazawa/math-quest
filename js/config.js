@@ -19,14 +19,26 @@ export const SOUNDS = {
 };
 
 export const SELECTORS = {
+  titleScreen: "#title-screen",
+  gameScreen: "#game-screen",
+  gameOver: "#gameover",
+  gameOverScore: ".overlay__score",
+  gameOverBest: ".overlay__best",
+  startButton: "#start-btn",
+  retryButton: "#retry-btn",
+  attackButton: "#attack-btn",
   problem: ".problem",
   answer: ".your-answer",
   score: ".score",
   life: ".life",
+  level: ".level",
   highScore: ".high-score",
   player: ".player",
   monster: ".monster",
-  dropdownButton: ".dropbtn",
-  dropdown: "#myDropdown",
-  dropdownItems: ".dropdown-content p",
+  opButtons: ".op",
 };
+
+// Monster grows with level, up to this many px tall.
+export const MONSTER_BASE_PX = 50;
+export const MONSTER_PX_PER_LEVEL = 12;
+export const MONSTER_MAX_PX = 200;
