@@ -12,6 +12,7 @@ const el = {
   highScore: $(SELECTORS.highScore),
   player: $(SELECTORS.player),
   monster: $(SELECTORS.monster),
+  operationButton: $(SELECTORS.dropdownButton),
 };
 
 export const renderProblem = (text) => (el.problem.textContent = text);
@@ -33,3 +34,11 @@ export const showIdleSprites = () => {
 };
 export const showMonsterHurt = () => (el.monster.src = IMAGES.monsterHurt);
 export const showPlayerHurt = () => (el.player.src = IMAGES.playerHurt);
+
+export const renderOperation = (op) =>
+  (el.operationButton.textContent = `Operation: ${op}`);
+
+export const setAnswerEnabled = (enabled) => {
+  el.answer.disabled = !enabled;
+  if (enabled) el.answer.focus();
+};

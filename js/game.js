@@ -1,27 +1,23 @@
 // Game rules and flow.
 
 import { LEVEL_UP_EVERY, NEXT_PROBLEM_DELAY_MS } from "./config.js";
-import { state } from "./state.js";
+import { state, resetRun } from "./state.js";
 import { generateProblem } from "./problem.js";
 import { playSound } from "./audio.js";
 import * as ui from "./ui.js";
 
-function checkLevelUp() {
-  // NOTE: preserved from the original — also fires at score 0, so the
-  // level rises on every new problem until the first point is scored.
-  if (state.score % LEVEL_UP_EVERY === 0) {
-    state.level++;
-    ui.setMonsterSize(state.level);
-    playSound("levelUp");
-  }
-}
-
 function nextProblem() {
-  state.problem = generateProblem(state.counter, state.level);
+  if (state.gameOver) return;
+  state.problem = generateProblem(state.counter, state.level, state.operation);
   ui.renderProblem(state.problem.text);
   ui.clearAnswerInput();
   ui.showIdleSprites();
-  checkLevelUp();
+}
+
+function levelUp() {
+  state.level++;
+  ui.setMonsterSize(state.level);
+  playSound("levelUp");
 }
 
 function handleCorrect() {
@@ -29,6 +25,7 @@ function handleCorrect() {
   ui.renderScore(state.score);
   ui.showMonsterHurt();
   playSound("correct");
+  if (state.score % LEVEL_UP_EVERY === 0) levelUp();
 }
 
 function handleIncorrect() {
@@ -38,14 +35,30 @@ function handleIncorrect() {
   playSound("incorrect");
 }
 
-function handleGameOver() {
-  // NOTE: preserved from the original — high score is overwritten even when
-  // lower, and play continues after life reaches 0.
-  state.highScore = state.score;
+function endGame() {
+  state.gameOver = true;
+  if (state.score > state.highScore) {
+    state.highScore = state.score;
+    ui.renderHighScore(state.highScore);
+  }
+  ui.setAnswerEnabled(false);
+  ui.renderProblem(`Game Over! Score: ${state.score} — press Enter to play again`);
+}
+
+function renderAll() {
+  ui.renderScore(state.score);
+  ui.renderLife(state.life);
   ui.renderHighScore(state.highScore);
+  ui.renderOperation(state.operation);
+  ui.setMonsterSize(state.level);
 }
 
 export function submitAnswer() {
+  if (state.gameOver) {
+    startGame();
+    return;
+  }
+
   const raw = ui.getAnswerInput();
   if (raw === "") {
     ui.setPlaceholder("Enter a number!");
@@ -55,16 +68,28 @@ export function submitAnswer() {
   if (Number(raw) === state.problem.answer) handleCorrect();
   else handleIncorrect();
 
-  if (state.life === 0) handleGameOver();
-
-  setTimeout(nextProblem, NEXT_PROBLEM_DELAY_MS);
   state.counter++;
   ui.setPlaceholder("Your answer");
+
+  if (state.life === 0) {
+    endGame();
+    return;
+  }
+  setTimeout(nextProblem, NEXT_PROBLEM_DELAY_MS);
+}
+
+export function setOperation(op) {
+  state.operation = op;
+  ui.renderOperation(op);
+  if (!state.gameOver) {
+    nextProblem();
+    ui.setAnswerEnabled(true); // refocus the input
+  }
 }
 
 export function startGame() {
+  resetRun();
+  ui.setAnswerEnabled(true);
+  renderAll();
   nextProblem();
-  ui.renderScore(state.score);
-  ui.renderHighScore(state.highScore);
-  ui.renderLife(state.life);
 }
